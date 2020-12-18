@@ -1,5 +1,5 @@
 (* Copyright (c) 2008-2012, Adam Chlipala
- * 
+ *
  * This work is licensed under a
  * Three-clause BSD Licence
  *
@@ -20,7 +20,7 @@
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
@@ -188,7 +188,7 @@ Ltac un_done :=
 Require Import JMeq.
 
 (** A more parameterized version of the famous [crush].  Extra arguments are:
-   * - A tuple-list of lemmas we try [inster]-ing 
+   * - A tuple-list of lemmas we try [inster]-ing
    * - A tuple-list of predicates we try inversion for *)
 Ltac crush' lemmas invOne :=
   (** A useful combination of standard automation *)
@@ -223,6 +223,11 @@ Ltac crush' lemmas invOne :=
 
 (** [crush] instantiates [crush'] with the simplest possible parameters. *)
 Ltac crush := crush' false fail.
+
+Ltac if_crush :=
+	crush; repeat match goal with
+		| [ |- context[if ?X then _ else _] ] => destruct X
+	end; crush.
 
 (** * Wrap Program's [dependent destruction] in a slightly more pleasant form *)
 
